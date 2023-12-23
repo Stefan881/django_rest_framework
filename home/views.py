@@ -24,7 +24,7 @@ def index(request):
     return Response(json_response)
 
     
-@api_view(['GET','POST','PUT','PATCH'])
+@api_view(['GET','POST','PUT','PATCH','DELETE'])
 def person(request):
     if request.method == 'GET':
         objs = Person.objects.all()
@@ -55,6 +55,12 @@ def person(request):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors)
+    
+    else:
+        data = request.data
+        obj = Person.objects.get(id = data['id'])
+        obj.delete()
+        return Response({"Response":"Person Deleted "})
     
      
 
