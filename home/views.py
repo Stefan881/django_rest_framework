@@ -1,7 +1,7 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import *
-from .serializers import PeopleSerializer
+from .serializers import PeopleSerializer,LoginSerializer
 
 
 
@@ -22,6 +22,21 @@ def index(request):
             'method':'GET'
         }
     return Response(json_response)
+
+
+@api_view(['POST'])
+def login(request):
+    data =  request.data
+    serializer = LoginSerializer(data = data)
+
+    if serializer.is_valid():
+        data = serializer.data
+        print(data)
+        return Response({'message':'Success'})
+        
+    return Response(serializer.errors)
+
+
 
     
 @api_view(['GET','POST','PUT','PATCH','DELETE'])
